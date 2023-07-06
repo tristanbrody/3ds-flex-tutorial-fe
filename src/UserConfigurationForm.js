@@ -3,7 +3,7 @@ import Button from "./UI/Button";
 const UserConfigurationForm = ({ handleConfigSubmit }) => {
   return (
     <form onSubmit={handleConfigSubmit}>
-      <label htmlFor="card-number-select">Scenario</label>
+      <label htmlFor="card-number-select">Scenarios</label>
       <select name="cards" id="card-number-select">
         <option value="4000000000001091">
           Successful step-up authentication
