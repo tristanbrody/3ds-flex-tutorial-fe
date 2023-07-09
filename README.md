@@ -20,7 +20,7 @@
 
     > The scenarios are from Cardinal and Worldpay's documentation. See [here](https://cardinaldocs.atlassian.net/wiki/spaces/CCen/pages/903577725/EMV+3DS+2.0+Test+Cases)
 
-        > Monitor the 'Logger' side of the application to see all current values relevant to the process. To see the claims in any JWT, go to jwt.io. 2. Device data collection is submitted to Cardinal Commerce. Specifically, a post request is made from an invisible iFrame to https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect. There are various ways to generate the requisite iFrame. In this case, React is generating the HTML for the iFrame via a functional component (which returns JSX), then is submitting the form in the iFrame via a useEffect that runs upon the component mounting.
+    > Monitor the 'Logger' side of the application to see all current values relevant to the process. To see the claims in any JWT, go to jwt.io. 2. Device data collection is submitted to Cardinal Commerce. Specifically, a post request is made from an invisible iFrame to https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect. There are various ways to generate the requisite iFrame. In this case, React is generating the HTML for the iFrame via a functional component (which returns JSX), then is submitting the form in the iFrame via a useEffect that runs upon the component mounting.
 
     > You could also generate the iFrame with vanilla HTML - see the Challenge section below for an example of this.
 
