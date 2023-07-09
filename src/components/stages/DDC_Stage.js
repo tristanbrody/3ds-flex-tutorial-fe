@@ -92,6 +92,7 @@ const DDC_Stage = () => {
     "message",
     async function (event) {
       //This is a Cardinal Commerce URL in live.
+      console.log(event);
       if (event.origin === "https://centinelapistag.cardinalcommerce.com") {
         const data = JSON.parse(event.data);
         if (data !== undefined && data.Status) {

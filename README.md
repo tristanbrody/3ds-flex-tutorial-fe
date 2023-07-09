@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# 3DS Flex Tutorial
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### What it does
 
-## Available Scripts
+- Demonstrates an integration to Worldpay's [3DS Flex with Cardinal API](https://developerengine.fisglobal.com/apis/wpg/directintegration/cardinalsecuretest/) in the test environment
 
-In the project directory, you can run:
+### Intended audience
 
-### `npm start`
+- Developers, technical folks and project managers seeking to understand Worldpay's 3DS Flex with Cardinal integration
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### APIs involved
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. BE for this project (events.3ds-flex.io)
+2. [Worldpay WPG](https://developerengine.fisglobal.com/apis/wpg) (a payment gateway)
+3. [Cardinal Commerce](https://cardinaldocs.atlassian.net/wiki/spaces/CC/pages/805699644/Cardinal+Cruise+API)
 
-### `npm test`
+### How it works
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1.  Select a scenario and click Start
 
-### `npm run build`
+    > The scenarios are from Cardinal and Worldpay's documentation. See [here](https://cardinaldocs.atlassian.net/wiki/spaces/CCen/pages/903577725/EMV+3DS+2.0+Test+Cases)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        > Monitor the 'Logger' side of the application to see all current values relevant to the process. To see the claims in any JWT, go to jwt.io. 2. Device data collection is submitted to Cardinal Commerce. Specifically, a post request is made from an invisible iFrame to https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect. There are various ways to generate the requisite iFrame. In this case, React is generating the HTML for the iFrame via a functional component (which returns JSX), then is submitting the form in the iFrame via a useEffect that runs upon the component mounting.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    > You could also generate the iFrame with vanilla HTML - see the Challenge section below for an example of this.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Cardinal responds to the device data collection form post via a JavaScript 'message' event.
+  - Here's an example of how the console looks in browser when the device data collection works as expected and Cardinal responds with a 200, including a console.log of the event:
+  - Here's an example of code you can use to listen for Cardinal's response:
+    ```
+    window.addEventListener(
+    "message",
+    async function (event) {
+    This is a Cardinal Commerce URL in live.
+    if (event.origin === "https://centinelapistag.cardinalcommerce.com") {
+    const data = JSON.parse(event.data);
+    if (data !== undefined && data.Status) {
+    setDDCData(data);
+    toggleDDCOutcomeLogged(true);
+    }
+    }
+    },
+    false
+    );
+    - The JavaScript message from Cardinal includes the 'sessionId' (also called the dfReferenceId, which indicates completion of the Device Data Collection. This is submitted in the authorisation call to Worldpay in the next step.
+    ```
 
-### `npm run eject`
+3. Click 'Forward' to trigger the authorisation API call to Worldpay. You can see the full authorisation message sent to Worldpay, and the response. The response will vary depending on the scenario you selected in step 1. If a challenge is required, you'll have the option to click 'Forward' again.
+4. If applicable, once you click 'Forward', the application will generate a (visible) challenge iFrame. This iFrame should be visible; it posts a JSON Web token to Cardinal including the 'ACSUrl', which is the challenge page hosted by the cardholder's issuing bank, returned in the authorisation message.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Cardinal's JavaScript then takes over to populate the iFrame with the challenge window that the shopper completes. In the test environment, this is a page hosted by Cardinal rather than the issuing bank:
+- Once the challenge is completed, Cardinal sends a post request to the ReturnUrl you include in the challenge JWT. In my implementation, this is a server-side endpoint, which returns HTML with a script to call out to iFrame's parent messsage API. Here is an example of an Express endpoint that listens for Cardinal's post request:
+  ```
+  router.post("/after-challenge", async (req, res) => {
+  // endpoint called by Cardinal after shopper completes challenge
+  // endpoint returns HTML with a script to call out to iFrame's parent using messsage API
+  console.dir(req.body);
+  res.set("Content-Type", "text/html");
+  res.send(
+  Buffer.from(
+    "<h2>Received response from Cardinal indicating completion of challenge</h2><script>window.parent.postMessage('Challenge completed', '*');</script>"
+  )
+  );
+  });
+  ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Once the application receives confirmation from Cardinal and the server-side endpoint that the shopper completed the challenge, it allows you to click 'Forward' to continue the flow. This will trigger the second authorisation message to Worldpay's WPG API, which references the original order code and indicates completion of the challenge. The application shows the XML sent to Worldpay and the XML received back from Worldpay.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Architecture
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### FE: React
 
-## Learn More
+#### BE: Express
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### BE deployed using Elastic Beanstalk
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### FE deployed using Cloudfront & S3

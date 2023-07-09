@@ -86,6 +86,14 @@ const Home = () => {
       <div className={classes.userConfigurationForm}>
         <UserConfigurationForm handleConfigSubmit={handleConfigSubmit} />
       </div>
+      <h3>
+        <a
+          href="https://github.com/tristanbrody/3ds-flex-tutorial-fe"
+          target="_blank"
+        >
+          About
+        </a>
+      </h3>
     </Card>
   );
 };
