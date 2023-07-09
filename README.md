@@ -19,12 +19,12 @@
 ### How it works
 
 1. Select a scenario and click Start
-   ![Selecting a 'scenario' in the application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/assets/selecting_scenario.jpg)
+   ![Selecting a 'scenario' in the application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/src/assets/selecting_scenario.jpg)
 
 > The scenarios are from Cardinal and Worldpay's documentation. See [here](https://cardinaldocs.atlassian.net/wiki/spaces/CCen/pages/903577725/EMV+3DS+2.0+Test+Cases)
 
 > Monitor the 'Logger' side of the application to see all current values relevant to the process. To see the claims in any JWT, go to jwt.io.
-> ![Event logger in application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/assets/logger_example.jpg)
+> ![Event logger in application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/src/assets/logger_example.jpg)
 
 2. Device data collection is submitted to Cardinal Commerce. Specifically, a post request is made from an invisible iFrame to https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect. There are various ways to generate the requisite iFrame. In this case, React is generating the HTML for the iFrame via a functional component (which returns JSX), then is submitting the form in the iFrame via a useEffect that runs upon the component mounting.
 
@@ -33,8 +33,8 @@
 - Cardinal responds to the device data collection form post via a JavaScript 'message' event.
 
 - Here's an example of how the console looks in browser when the device data collection works as expected and Cardinal responds with a 200, including a console.log of the event:
-  ![Cardinal Commerce API response 1](https://github.com/tristanbrody/3ds-flex-tutorial-fe/assets/cardinal_commerce_ddc_response_in_console.jpg)
-  ![Cardinal Commerce API response 2](https://github.com/tristanbrody/3ds-flex-tutorial-fe/assets/cardinal_commerce_ddc_event_response_in_console.jpg)
+  ![Cardinal Commerce API response 1](https://github.com/tristanbrody/3ds-flex-tutorial-fe/assets/src/cardinal_commerce_ddc_response_in_console.jpg)
+  ![Cardinal Commerce API response 2](https://github.com/tristanbrody/3ds-flex-tutorial-fe/assets/src/cardinal_commerce_ddc_event_response_in_console.jpg)
 - Here's an example of code you can use to listen for Cardinal's response:
 
 ```
