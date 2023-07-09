@@ -111,9 +111,11 @@ const InitialAuthRequest = () => {
             const transactionId3DS =
               res.paymentService.reply[0].orderStatus[0].challengeRequired[0]
                 .threeDSChallengeDetails[0].transactionId3DS[0];
+            // const acsURL =
+            //   res.paymentService.reply[0].orderStatus[0].challengeRequired[0]
+            //     .threeDSChallengeDetails[0].acsURL[0];
             const acsURL =
-              res.paymentService.reply[0].orderStatus[0].challengeRequired[0]
-                .threeDSChallengeDetails[0].acsURL[0];
+              "https://0merchantacsstag.cardinalcommerce.com/MerchantACSWeb/creq.jsp";
             const payload =
               res.paymentService.reply[0].orderStatus[0].challengeRequired[0]
                 .threeDSChallengeDetails[0].payload[0];
