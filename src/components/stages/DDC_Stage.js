@@ -98,7 +98,10 @@ const DDC_Stage = () => {
       console.log(event);
       if (event.origin === "https://centinelapistag.cardinalcommerce.com") {
         const data = JSON.parse(event.data);
-        if (data !== undefined && data.Status) {
+        if (
+          data !== undefined &&
+          data.Status & (data.SessionId != DDCData.SessionId)
+        ) {
           setDDCData(data);
           toggleDDCOutcomeLogged(true);
         }
