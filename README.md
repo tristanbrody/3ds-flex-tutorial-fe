@@ -19,12 +19,12 @@
 ### How it works
 
 1. Select a scenario and click Start
-   ![Selecting a 'scenario' in the application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/blob/master/src/assets/selecting_scenario.jpg)
+   ![Selecting a 'scenario' in the application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/src/assets/selecting_scenario.jpg)
 
 > The scenarios are from Cardinal and Worldpay's documentation. See [here](https://cardinaldocs.atlassian.net/wiki/spaces/CCen/pages/903577725/EMV+3DS+2.0+Test+Cases)
 
 > Monitor the 'Logger' side of the application to see all current values relevant to the process. To see the claims in any JWT, go to jwt.io.
-> ![Event logger in application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/blob/master/src/assets/logger_example.jpg)
+> ![Event logger in application](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/src/assets/logger_example.jpg)
 
 2. Device data collection is submitted to Cardinal Commerce. Specifically, a post request is made from an invisible iFrame to https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect. There are various ways to generate the requisite iFrame. In this case, React is generating the HTML for the iFrame via a functional component (which returns JSX), then is submitting the form in the iFrame via a useEffect that runs upon the component mounting.
 
@@ -33,8 +33,8 @@
 - Cardinal responds to the device data collection form post via a JavaScript 'message' event.
 
 - Here's an example of how the console looks in browser when the device data collection works as expected and Cardinal responds with a 200, including a console.log of the event:
-  ![Cardinal Commerce API response 1](https://github.com/tristanbrody/3ds-flex-tutorial-fe/blob/master/assets/src/cardinal_commerce_ddc_response_in_console.jpg)
-  ![Cardinal Commerce API response 2](https://github.com/tristanbrody/3ds-flex-tutorial-fe/blob/master/assets/src/cardinal_commerce_ddc_event_response_in_console.jpg)
+  ![Cardinal Commerce API response 1](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/assets/src/cardinal_commerce_ddc_response_in_console.jpg)
+  ![Cardinal Commerce API response 2](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/assets/src/cardinal_commerce_ddc_event_response_in_console.jpg)
 - Here's an example of code you can use to listen for Cardinal's response:
 
 ```
@@ -73,7 +73,7 @@ false
 
 3. Click 'Forward' to trigger the authorisation API call to Worldpay. You can see the full authorisation message sent to Worldpay, and the response. The response will vary depending on the scenario you selected in step 1. If a challenge is required, you'll have the option to click 'Forward' again.
 
-4. If applicable, once you click 'Forward', the application will generate a (visible) challenge iFrame. This iFrame should be visible; it posts a JSON Web token to Cardinal including the 'ACSUrl', which is the challenge page hosted by the cardholder's issuing bank, returned in the authorisation message.
+4. If applicable, once you click 'Forward', the application will generate a (visible) challenge iFrame. This iFrame should be visible; it posts a JSON Web token to Cardinal including the 'ACSUrl', which is the challenge page hosted by the cardholder's issuing bank, returned in the authorisation message. See [here](https://codepen.io/tristanbrody/pen/qBKNQPG) for an example of an iFrame created using 'srcdoc'; this code is appropriate for developers using vanilla JavaScript and HTML to generate a working example.
 
 - Cardinal's JavaScript then takes over to populate the iFrame with the challenge window that the shopper completes. In the test environment, this is a page hosted by Cardinal rather than the issuing bank:
 
