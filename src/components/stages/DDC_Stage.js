@@ -51,7 +51,10 @@ const DDC_Stage = () => {
 
   useEffect(() => {
     console.log(APP_STORE);
-    DDC_iFrame.current.submit();
+    console.log(JWT);
+    if (JWT) {
+      DDC_iFrame.current.submit();
+    }
     console.log("DDCOutcome is", DDCOutcomeLogged);
     if (DDCOutcomeLogged) {
       DDCOutcomeP.current.innerText = `
@@ -124,7 +127,11 @@ const DDC_Stage = () => {
           action="https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect"
           target="myiframe"
         >
-          <input type="hidden" name="Bin" value="4000000000001091" />
+          <input
+            type="hidden"
+            name="Bin"
+            value={APP_STORE.scenario.cardNumber}
+          />
           <input type="hidden" name="JWT" value={JWT} />
         </form>
       </iframe>

@@ -33,8 +33,8 @@
 - Cardinal responds to the device data collection form post via a JavaScript 'message' event.
 
 - Here's an example of how the console looks in browser when the device data collection works as expected and Cardinal responds with a 200, including a console.log of the event:
-  ![Cardinal Commerce API response 1](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/assets/src/cardinal_commerce_ddc_response_in_console.jpg)
-  ![Cardinal Commerce API response 2](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/assets/src/cardinal_commerce_ddc_event_response_in_console.jpg)
+  ![Cardinal Commerce API response 1](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/src/assets/cardinal_commerce_ddc_response_in_console.jpg)
+  ![Cardinal Commerce API response 2](https://github.com/tristanbrody/3ds-flex-tutorial-fe/tree/master/src/assets/cardinal_commerce_ddc_event_response_in_console.jpg)
 - Here's an example of code you can use to listen for Cardinal's response:
 
 ```
