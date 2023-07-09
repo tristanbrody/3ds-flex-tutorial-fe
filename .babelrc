@@ -1,3 +1,12 @@
 {
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": ["react-hot-loader/babel"],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage", // or "entry"
+        "corejs": 3
+      }
+    ]
+  ]
 }
