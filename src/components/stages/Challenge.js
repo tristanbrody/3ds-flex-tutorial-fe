@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import StageToggle from "../../UI/StageToggle";
 import { AppContext } from "../../App";
+import { BE_ROOT } from "../../utils/vars";
 const axios = require("axios");
 
 const Challenge = () => {
@@ -13,7 +14,7 @@ const Challenge = () => {
   const [challengeCompleted, toggleChallengeCompleted] = useState(false);
   useEffect(() => {
     const getSecondChallengeJWT = async () => {
-      const challengeJWT = await fetch("http://localhost:3001/token2", {
+      const challengeJWT = await fetch(`${BE_ROOT}/token2`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,8 +69,6 @@ const Challenge = () => {
         id="myiframe"
         name="myiframe"
         ref={challengeFrame}
-        height="1"
-        width="1"
         style={{ display: "none" }}
         title="sometitle"
       >

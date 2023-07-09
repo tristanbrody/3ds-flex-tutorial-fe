@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import classes from "./SecondAuthRequest.module.css";
 import { AppContext } from "../../App";
 import StageToggle from "../../UI/StageToggle";
+import { BE_ROOT } from "../../utils/vars";
+import xmlFormat from "xml-formatter";
+
 const parseXML = require("xml2js").parseString;
 const axios = require("axios");
 
@@ -32,11 +35,11 @@ const SecondAuthRequest = () => {
         request: { xml: secondAuthRequestXml, cookie: APP_STORE.cookie },
       };
       const authRes = await axios.post(
-        "http://localhost:3001/second-auth-request",
+        `${BE_ROOT}/second-auth-request`,
         config
       );
-      var data = authRes.data.res.toString().replace("\ufeff", "");
-
+      // var data = authRes.data.res.toString().replace("\ufeff", "");
+      let data = xmlFormat(authRes.data.res);
       parseXML(data, (err, res) => {
         if (err) throw err;
         secondAuthRequestContainer.current.innerText = `

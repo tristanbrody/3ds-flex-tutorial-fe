@@ -2,6 +2,8 @@ import { useEffect, useContext, useRef, useState } from "react";
 import { AppContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import StageToggle from "../../UI/StageToggle";
+import { BE_ROOT } from "../../utils/vars";
+import xmlFormat from "xml-formatter";
 
 import classes from "./InitialAuthRequest.module.css";
 const util = require("util");
@@ -17,7 +19,7 @@ const InitialAuthRequest = () => {
   const navigate = useNavigate();
 
   const { APP_STORE, UPDATE_APP_STORE } = useContext(AppContext);
-
+  console.log(APP_STORE);
   function generateRandomString(length) {
     var result = "";
     var characters =
@@ -48,11 +50,11 @@ const InitialAuthRequest = () => {
       </orderContent>
       <paymentDetails>
         <CARD-SSL>
-          <cardNumber>4000000000001091</cardNumber>
+          <cardNumber>${APP_STORE.scenario.cardNumber}</cardNumber>
           <expiryDate>
             <date month='01' year='2024'/>
           </expiryDate>
-          <cardHolderName>AUTHORISED</cardHolderName>
+          <cardHolderName>${APP_STORE.scenario.cardHolderName}</cardHolderName>
           <cvc>123</cvc>
           <cardAddress>
             <address>
@@ -88,18 +90,21 @@ const InitialAuthRequest = () => {
       };
       let authRes;
       try {
-        authRes = await axios.post(
-          "http://localhost:3001/auth-request",
-          config
-        );
+        authRes = await axios.post(`${BE_ROOT}/auth-request`, config);
       } catch {
         console.log("ERROR WITH TRANSACTION");
       }
-      let data = authRes.data.res.toString().replace("\ufeff", "");
+      // let data = authRes.data.res.toString().replace("\ufeff", "");
+      let data = xmlFormat(authRes.data.res);
 
       parseXML(data, (err, res) => {
+        console.log(APP_STORE.scenario.scenario);
         if (err) throw err;
-        if (APP_STORE.scenario.scenario !== "successful-frictionless") {
+        if (
+          APP_STORE.scenario.scenario !== "successful-frictionless" &&
+          APP_STORE.scenario.scenario !== "attempts-non-participating" &&
+          APP_STORE.scenario.scenario !== "timeout"
+        ) {
           initialAuthContainer.current.innerText = `Response from Worldpay to initial auth is ${data}`;
           try {
             const initialAuthReply = res.paymentService.reply[0];

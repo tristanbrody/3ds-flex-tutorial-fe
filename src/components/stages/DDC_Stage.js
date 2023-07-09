@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../../App";
 import StageToggle from "../../UI/StageToggle";
+import { BE_ROOT } from "../../utils/vars";
+
 const axios = require("axios");
 
 const DDC_Stage = () => {
+  console.log(BE_ROOT);
   const DDC_iFrame = useRef(null);
   const DDCOutcomeP = useRef(null);
   const navigate = useNavigate();
@@ -19,7 +22,7 @@ const DDC_Stage = () => {
   const [authRequestCompleted, toggleAuthRequestCompleted] = useState(false);
 
   async function getJWT() {
-    fetch("http://localhost:3001/token", { method: "POST" }).then(d =>
+    fetch(`${BE_ROOT}/token`, { method: "POST" }).then(d =>
       d.json().then(res => {
         toggleLoaded(true);
         const token = res.token;
@@ -47,6 +50,7 @@ const DDC_Stage = () => {
   }, []);
 
   useEffect(() => {
+    console.log(APP_STORE);
     DDC_iFrame.current.submit();
     console.log("DDCOutcome is", DDCOutcomeLogged);
     if (DDCOutcomeLogged) {
@@ -68,7 +72,7 @@ const DDC_Stage = () => {
           action="https://centinelapistag.cardinalcommerce.com/V1/Cruise/Collect"
           target="myiframe"
         >
-          <input type="hidden" name="Bin" value="4000000000001091" />
+          <input type="hidden" name="Bin" value={APP_STORE.scenario.cardNumber} />
           <input type="hidden" name="JWT" value={JWT} />
         </form>
       </iframe>

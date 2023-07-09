@@ -30,7 +30,7 @@ const Logger = () => {
               .map(k => {
                 return (
                   <>
-                    <li>
+                    <li key={100 * Math.random()}>
                       <strong>{k[0]}</strong>: {k[1]}
                     </li>
                   </>

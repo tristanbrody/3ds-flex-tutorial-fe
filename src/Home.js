@@ -4,6 +4,7 @@ import UserConfigurationForm from "./UserConfigurationForm";
 import { AppContext } from "./App";
 import Card from "./UI/Card";
 import StageToggle from "./UI/StageToggle";
+import classes from "./Home.module.css";
 
 const Home = () => {
   // create class or set of classes to manage different scenarios, then instantiate them in App.js and pass into single UI component that can be re-rendered throughout app's cycle
@@ -81,8 +82,10 @@ const Home = () => {
   };
   return (
     <Card>
-      <UserConfigurationForm handleConfigSubmit={handleConfigSubmit} />
       <StageToggle prevLink="#" forwardLink="#" forwardDisabled={true} />
+      <div className={classes.userConfigurationForm}>
+        <UserConfigurationForm handleConfigSubmit={handleConfigSubmit} />
+      </div>
     </Card>
   );
 };
