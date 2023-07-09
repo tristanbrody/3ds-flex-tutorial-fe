@@ -3,8 +3,9 @@ require("dotenv").config({ path: require("find-config")(".env") });
 const ck = require("ckey");
 
 console.log(process.env.REACT_APP_BE_ROOT_TEST);
+let BE_ROOT
 try {
-  const BE_ROOT = (process.env.REACT_APP_BE_ENV = "TEST"
+ BE_ROOT = (process.env.REACT_APP_BE_ENV = "TEST"
     ? process.env.REACT_APP_BE_ROOT_TEST
     : process.env.REACT_APP_BE_ROOT_PROD);
 } catch {
