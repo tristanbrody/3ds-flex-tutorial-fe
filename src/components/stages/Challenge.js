@@ -48,7 +48,17 @@ const Challenge = () => {
       }, 5000);
     }
   }, [APP_STORE.challengeJWT]);
-
+  window.addEventListener(
+    "message",
+    async function (event) {
+      const data = event.data;
+      if (data === "Challenge completed") {
+        console.log(`Challenge completed`);
+        toggleChallengeCompleted(true);
+      }
+    },
+    false
+  );
   window.addEventListener(
     "challengeCompleted",
     async function (event) {
