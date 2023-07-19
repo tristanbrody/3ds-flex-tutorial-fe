@@ -50,7 +50,7 @@ const Challenge = () => {
   }, [APP_STORE.challengeJWT]);
 
   window.addEventListener(
-    "message",
+    "challengeCompleted",
     async function (event) {
       const data = event.data;
       if (data === "Challenge completed") {

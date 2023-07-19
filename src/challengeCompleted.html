@@ -14,7 +14,7 @@
 </body>
 
 <script>
-    const event = new CustomEvent('challengeCompleted', { result: true });
+    const event = new CustomEvent('challengeCompleted', { data: "Challenge completed" });
     document.getElementById("main-header").dispatchEvent(event);
 </script>
 
