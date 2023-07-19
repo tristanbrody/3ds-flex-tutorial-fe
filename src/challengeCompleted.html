@@ -8,9 +8,14 @@
 </head>
 
 <body>
-    <h1>
+    <h1 id="main-header">
         Received notice from Cardinal that challenge was completed
     </h1>
 </body>
+
+<script>
+    const event = new CustomEvent('challengeCompleted', { result: true });
+    document.getElementById("main-header").dispatchEvent(event);
+</script>
 
 </html>
