@@ -52,7 +52,7 @@ const InitialAuthRequest = () => {
         <CARD-SSL>
           <cardNumber>${APP_STORE.scenario.cardNumber}</cardNumber>
           <expiryDate>
-            <date month='01' year='2024'/>
+            <date month='01' year='2027'/>
           </expiryDate>
           <cardHolderName>${APP_STORE.scenario.cardHolderName}</cardHolderName>
           <cvc>123</cvc>
